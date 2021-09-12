@@ -1,0 +1,132 @@
+\documentclass[doctor,11pt,final]{iscs-thesis}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage[ruled,noline]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{linguex}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage[round]{natbib}
+\usepackage[super]{nth}
+\usepackage{pifont}
+\usepackage{quoting}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage{times}
+\usepackage{xcolor,colortbl}
+
+
+%% General
+
+\renewcommand\labelitemi{\normalsize$\bullet$}
+
+\sloppy % fix overfull errors in paragraph
+
+
+%% Chapter 03
+\newcommand{\utterance}[1]{``#1''}
+
+
+%% Chapter 04
+\definecolor{mygreen}{cmyk}{1,0,1,0.25}
+\definecolor{myblue}{cmyk}{1,1,0,0}
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+%% Chapter 05
+\definecolor{Gray}{gray}{0.85}
+\newcolumntype{a}{>{\columncolor{Gray}}c}
+
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+
+%% Chapter 06
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+
+%-------------------
+\etitle{A Study on Advanced Common Grounding \\in Natural Language Dialogue Systems}
+\jtitle{（自然言語対話システムにおける発展的な基盤化の研究）}
+%
+\eauthor{Takuma Udagawa}
+\jauthor{宇田川拓真}
+\esupervisor{Akiko Aizawa}
+\jsupervisor{相澤彰子}
+\supervisortitle{Professor}
+\date{June 4, 2021}
+%-------------------
+\begin{document}
+\begin{eabstract}
+
+\begin{spacing}{1.1}
+{\normalsize
+One ultimate goal of natural language processing is to develop systems that can understand and communicate reliably in natural language. Towards this end, we focus on the fundamental aspect of communication called common grounding, which refers to the collaborative process of creating and maintaining mutual understandings (i.e. common ground). Despite the long history of study on this topic, we raise three major limitations in existing research. First, existing works mostly focus on restricted domains and task settings where advanced common grounding is not required. Secondly, how to evaluate and analyze common grounding remains an open problem. Finally, existing dialogue systems still have limited capability of common grounding: to be specific, traditional (pipeline) dialogue systems lack the flexibility and end-to-end (fully data-driven) systems lack the robustness required for advanced common grounding.\\
+\indent To address these problems, we propose a novel research platform to study advanced common grounding in natural language communication. In Chapter \ref{01_chp:introduction}, we introduce the precise scope of this thesis, namely the viewpoint of common grounding as entity-level alignment. In Chapter \ref{02_chp:literature_review}, we give an overview of the existing literature on common grounding, dialogue systems and symbol grounding research. In Chapter \ref{03_chp:task_formulation}, we formally define the collaborative reference task to measure the ability of creating common ground. To study advanced common grounding, we propose a novel task setting under continuous and partially-observable context, where collaborative resolution of complex ambiguity, uncertainty and misunderstandings is required. Based on this task design, we developed OneCommon Corpus: a large-scale dataset of 6,760 dialogues for conducting empirical studies. In Chapter \ref{04_chp:interpretation}, we propose an annotation framework of reference resolution to interpret common grounding across modalities. We show that our approach is reliable, scalable, and useful for investigating the strategies of both humans and imperfect dialogue systems. In Chapter \ref{05_chp:analysis}, we provide additional annotation of spatial expressions on top of reference resolution. Based on these annotations, we capture fine-grained linguistic structures as well as how they are externally grounded at the level of symbol grounding. In Chapter \ref{06_chp:task_generalization}, we generalize our collaborative reference task under dynamic context to study advanced skills of maintaining common ground. Based on this task formulation, we developed Dynamic-OneCommon Corpus: another large-scale dataset containing 5,617 dialogues. Through our empirical studies, we demonstrate advanced strategies required under this setting, such as the usage of complex spatio-temporal expressions and previous common ground to retain or update common ground.\\
+\indent Based on this platform, we enable various dialogue systems to be evaluated, analyzed and improved in terms of advanced common grounding. In Chapter \ref{07_chp:discussion}, we explore the future prospects of our research, including further ideas on the task design, model improvements, and real-world applications. In Chapter \ref{08_chp:conclusion}, we summarize the contributions of this thesis. Overall, we expect our study to be a fundamental step towards developing dialogue systems that can collaborate with humans reliably in natural language.
+}
+\end{spacing}
+
+\end{eabstract}
+
+\begin{jabstract}
+自然言語処理研究における究極的な目標の一つは、人間のように言語を理解し、信頼性の高いコミュニケーションを行える対話システムの実現である。この目標に向けて、本論文ではコミュニケーションの根幹を成す基盤化という現象に着目する。基盤化とは、共通理解（共通基盤）を形成・維持する一連のプロセスを指し、重要な研究対象として長い歴史を持つ。しかし、既存研究には大きく三つの問題点がある。第一に、既存の対話研究はドメイン・タスク設計の観点から限られており、高度な基盤化を要請しない。第二に、基盤化の能力の評価・分析を行うことは一般に難しい。第三に、既存の対話システムの基盤化能力の限界がある。具体的には、従来の（パイプライン型の）対話システムは柔軟性に欠けており、（完全にデータ駆動型の）end-to-end 対話システムは頑健性に欠けているため、どちらも複雑な状況に対処する高度な基盤化を行うことができない。
+
+以上の問題点を解決するために、本論文では発展的な基盤化の研究を推進するための新たな研究プラットフォームを提案する。1 章では基盤化をエンティティレベルのアラインメントとして捉えることで、本研究の対象領域の明確な導入を行う。2 章では重要な関連研究、特に基盤化・対話システム・記号接地問題の分野を概観する。3 章では正確な共通基盤の形成を評価するための協調的参照タスクを定義する。その上で、連続的な情報および部分観測的な状況を扱うタスク設定を導入することで、曖昧性・不確実性・誤解の解消を含む高度な基盤化を要請する。このタスク設定に基づき、6,760対話を含む大規模な OneCommon コーパスを構築し、様々な実証的研究を可能にする。4 章では参照解決のアノテーションに基づくモダリティ横断的な基盤化の解釈手法を提案する。提案手法によって分析の信頼性と拡張性を担保しつつ、人間だけでなく不完全な対話システムの解釈が可能になることを示す。5 章では参照解決に加えて空間表現のアノテーションを組み合わせたさらなる分析を行う。これによって対話中のより詳細な言語構造を捉えつつ、それらのモダリティ横断的な（記号接地問題のレベルでの）深い分析が可能になることを示す。6 章では協調的参照タスクを時系列的に拡張することで、動的な環境における共通基盤の維持を評価する新たなタスクの設計を行う。このタスク設計に基づき5,617対話を含む Dynamic-OneCommon コーパスを新たに構築し、動的な環境では複雑な時空間表現や過去の共通基盤を利用した高度な基盤化が要請されることを示す。
+
+本論文の提案プラットフォームを用いることで、様々な対話システムを発展的な基盤化の観点から実装・評価・分析することが可能になる。7 章では更なるタスク設計のアイデア、モデルの改善手法、現実問題への応用を含めた今後の研究の展望について考察する。最後に 8 章では本研究全体を総括する。以上の貢献により、本論文は自然言語を通じて人間と協調できる、信頼性の高い対話システムの実現に向けた重要な基礎を構築する。
+
+\end{jabstract}
+
+\maketitle
+
+
+\begin{acknowledge}
+
+First and foremost, I would like to express my sincere gratitude to Professor Akiko Aizawa for her invaluable guidance. Throughout the writing of this PhD thesis, I've been always encouraged by her unwavering belief, understanding and support in my research. It was truly a life-changing experience to spend the 5 years under her supervision. I will cherish everything I've learned from her in my future career, including the virtues of modesty, kindness and respect for others.
+
+I must also express my gratitude to Asst. Prof. Saku Sugawara for all the inspiring discussions. His pivotal insight on natural language understanding research had a profound influence on my studies. I'm also deeply grateful for always providing me constructive comments on my research plans and paper writing.
+
+I would like to extend my sincere thanks to the members of our laboratory, especially Vitou Phy and Takato Yamazaki for willingly participating in my annotation projects. I owe my special thanks to the secretory Noriko Katsu for assisting many aspects of my laboratory life. I was fortunate to be able to work and spend the time together with all the great members at National Institute of Informatics.
+
+I am also grateful to the members of my PhD thesis commitee, Assoc. Prof. Hideki Nakayama, Prof. Imari Sato, Prof. Masami Hagiya, Prof. Ryuichiro Higashinaka, and Prof. Yusuke Miyao. They provided me important feedback on improving the early draft and presentation of this thesis.
+
+Finally, my deepest appreciation goes to my family: especially my parents, siblings, nephew, and partner. Without their tremendous understanding and support, this milestone could not have been achieved. I dedicate this thesis to them.
+
+\end{acknowledge}
+
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+%-------------------
+\mainmatter
+
+\include{01_introduction/01_introduction.tex}
+
+\include{02_literature_review/02_literature_review.tex}
+
+\include{03_task_formulation/03_task_formulation.tex}
+
+\include{04_interpretation/04_interpretation.tex}
+
+\include{05_analysis/05_analysis.tex}
+
+\include{06_task_generalization/06_task_generalization.tex}
+
+\include{07_discussion/07_discussion.tex}
+
+\include{08_conclusion/08_conclusion.tex}
+
+
+%-------------------
+\bibliographystyle{plainnat}
+\bibliography{myref}
+%-------------------
+\end{document}
